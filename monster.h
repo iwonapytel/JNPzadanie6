@@ -48,15 +48,17 @@ private:
 
 class GroupOfMonsters {
 public:
-    GroupOfMonsters(std::initializer_list<Monster> monsters);
-    GroupOfMonsters(std::vector<Monster> monsters);
+    GroupOfMonsters(std::initializer_list<std::shared_ptr<Monster>> monsters);
+    GroupOfMonsters(const std::vector<std::shared_ptr<Monster>>& monsters);
+    GroupOfMonsters(std::vector<std::shared_ptr<Monster>>&& monsters);
 
-    HealthPoints getHealth();
-    AttackPower getAttackPower();
+    HealthPoints getHealth() const;
+    AttackPower getAttackPower() const;
     void takeDamage(AttackPower damage);
+    const std::string& getName() const;
 
 private:
-    std::vector<Monster> _monsters;
+    std::vector<std::shared_ptr<Monster>> _monsters;
     const std::string _name;
 };
 
@@ -73,6 +75,9 @@ std::shared_ptr<GroupOfMonsters>
         createGroupOfMonsters(std::initializer_list<std::shared_ptr<Monster>> monsters);
 
 std::shared_ptr<GroupOfMonsters>
-        createGroupOfMonsters(std::vector<std::shared_ptr<Monster>> monsters);
+        createGroupOfMonsters(const std::vector<std::shared_ptr<Monster>>& monsters);
+
+std::shared_ptr<GroupOfMonsters>
+        createGroupOfMonsters(std::vector<std::shared_ptr<Monster>>&& monsters);
 
 #endif // MONSTER_H

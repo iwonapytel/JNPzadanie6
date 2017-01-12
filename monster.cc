@@ -31,13 +31,16 @@ const std::string& Zombie::getName() const {
     return _name;
 }
 
-GroupOfMonsters::GroupOfMonsters(std::initializer_list<Monster> monsters)
+GroupOfMonsters::GroupOfMonsters(std::initializer_list<std::shared_ptr<Monster>> monsters)
         : _monsters(monsters), _name("GroupOfMonsters") { }
 
-GroupOfMonsters::GroupOfMonsters(std::vector<Monster> monsters)
+GroupOfMonsters::GroupOfMonsters(const std::vector<std::shared_ptr<Monster>>& monsters)
         : _monsters(monsters), _name("GroupOfMonsters") { }
 
-HealthPoints GroupOfMonsters::getHealth() {
+GroupOfMonsters::GroupOfMonsters(std::vector<std::shared_ptr<Monster>>&& monsters)
+        : _monsters(monsters), _name("GroupOfMonsters") { }
+
+HealthPoints GroupOfMonsters::getHealth() const {
     HealthPoints health_of_group = 0;
 
     for (Monster monster : _monsters) {
@@ -47,7 +50,7 @@ HealthPoints GroupOfMonsters::getHealth() {
     return health_of_group;
 }
 
-AttackPower GroupOfMonsters::getAttackPower() {
+AttackPower GroupOfMonsters::getAttackPower() const {
     AttackPower attack_power_of_group = 0;
 
     for (Monster monster : _monsters) {
@@ -61,6 +64,10 @@ void GroupOfMonsters::takeDamage(AttackPower damage) {
     for (Monster monster : _monsters) {
         monster.takeDamage(damage);
     }
+}
+
+const std::string& GroupOfMonsters::getName() const {
+    return _name;
 }
 
 std::shared_ptr<Mummy>
@@ -84,7 +91,13 @@ createGroupOfMonsters(std::initializer_list<std::shared_ptr<Monster>> monsters) 
 }
 
 std::shared_ptr<GroupOfMonsters>
-createGroupOfMonsters(std::vector<std::shared_ptr<Monster>> monsters) {
+createGroupOfMonsters(const std::vector<std::shared_ptr<Monster>>& monsters) {
     return std::make_shared<GroupOfMonsters>(monsters);
 }
+
+std::shared_ptr<GroupOfMonsters>
+createGroupOfMonsters(std::vector<std::shared_ptr<Monster>>&& monsters) {
+    return std::make_shared<GroupOfMonsters>(std::move(monsters));
+}
+
 
