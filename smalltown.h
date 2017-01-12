@@ -33,25 +33,8 @@ public:
            size_t citizensAlive);
 
     const std::string & getMonsterName() const;
-    HealthPoints & getMonsterHP() const;
+    HealthPoints getMonsterHP() const;
     size_t getCitizensAlive() const;
-};
-
-class Builder {
-private:
-    MonsterPtr _monster;
-    std::vector<CitizenPtr> _citizens;
-    Time _t0 = -1;
-    Time _t1 = -1;
-public:
-    Builder();
-
-    Builder & monster(MonsterPtr monster);
-    Builder & citizen(CitizenPtr citizen);
-    Builder & startTime(Time t0);
-    Builder & maxTime(Time t1);
-
-    Smalltown build();
 };
 
 class SmallTown {
@@ -59,19 +42,35 @@ private:
     MonsterPtr _monster;
     std::vector<CitizenPtr> _citizens;
     Time _time, _maxTime;
-    AttackTimeStrategy _strategy;
-    size_t citizensAlive;
+    AttackTimeStrategy* _strategy;
+    size_t _citizensAlive;
     void performAttack();
 public:
     SmallTown(const MonsterPtr & monster, const std::vector<CitizenPtr> citizens,
               Time t0, Time t1);
 
     SmallTown(const MonsterPtr & monster, const std::vector<CitizenPtr> citizens,
-              Time t0, Time t1, AttackTimeStrategy strategy);
+              Time t0, Time t1, AttackTimeStrategy* strategy);
 
     Status getStatus() const;
 
     void tick(Time timeStep);
+
+    class Builder {
+    private:
+        MonsterPtr _monster;
+        std::vector<CitizenPtr> _citizens;
+        Time _t0, _t1;
+    public:
+        Builder();
+
+        Builder & monster(MonsterPtr monster);
+        Builder & citizen(CitizenPtr citizen);
+        Builder & startTime(Time t0);
+        Builder & maxTime(Time t1);
+
+        SmallTown build();
+    };
 };
 
 #endif // SMALLTOWN_H
