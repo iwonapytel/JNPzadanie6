@@ -21,7 +21,8 @@ Teenager::Teenager(HealthPoints health, Age age) : _age(age), _health(health) {
     assert(age >= static_cast<HealthPoints>(MIN_TEENAGER_AGE) && age <= static_cast<HealthPoints>(MAX_TEENAGER_AGE));
 }
 
-Sheriff::Sheriff(HealthPoints health, Age age, AttackPower attack_power) : _age(age), _health(health) {
+Sheriff::Sheriff(HealthPoints health, Age age, AttackPower attack_power) :
+        _age(age), _health(health), _attack_power(attack_power) {
     assert(age >= static_cast<HealthPoints>(MIN_ADULT_AGE) && age <= static_cast<HealthPoints>(MAX_ADULT_AGE));
 }
 
@@ -40,6 +41,6 @@ createTeenager(HealthPoints health, Age age) {
 }
 
 std::shared_ptr<Sheriff>
-createSheriff(HealthPoints health, Age age) {
+createSheriff(HealthPoints health, Age age, AttackPower attack_power) {
     return std::make_shared<Sheriff>(health, age);
 }

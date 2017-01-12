@@ -42,6 +42,6 @@ std::shared_ptr<Teenager>
         createTeenager(HealthPoints healthPoints, Age age);
 
 std::shared_ptr<Sheriff>
-        createSheriff(HealthPoints healthPoints, Age age);
+        createSheriff(HealthPoints healthPoints, Age age, AttackPower attack_power);
 
 #endif // CITIZEN_H
