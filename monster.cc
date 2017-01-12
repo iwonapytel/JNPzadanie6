@@ -1,6 +1,7 @@
 #include "monster.h"
 
-Monster::Monster(HealthPoints health, HealthPoints attack_power) : _health(health), Attacker(attack_power) { }
+Monster::Monster(HealthPoints health, HealthPoints attack_power, std::string name) :
+        _health(health), _name(name), Attacker(attack_power) { }
 
 HealthPoints Monster::getHealth() const {
     return _health;
@@ -11,21 +12,21 @@ void Monster::takeDamage(HealthPoints damage) {
 }
 
 Mummy::Mummy(HealthPoints health, HealthPoints attack_power)
-        : Monster(health, attack_power), _name("Mummy") { }
+        : Monster(health, attack_power, "Mummy") { }
 
 const std::string& Mummy::getName() const {
     return _name;
 }
 
 Vampire::Vampire(HealthPoints health, HealthPoints attack_power)
-        : Monster(health, attack_power), _name("Vampire") { }
+        : Monster(health, attack_power, "Vampire") { }
 
 const std::string& Vampire::getName() const {
     return _name;
 }
 
 Zombie::Zombie(HealthPoints health, HealthPoints attack_power)
-        : Monster(health, attack_power), _name("Zombie") { }
+        : Monster(health, attack_power, "Zombie") { }
 
 const std::string& Zombie::getName() const {
     return _name;
@@ -43,8 +44,8 @@ GroupOfMonsters::GroupOfMonsters(std::vector<std::shared_ptr<Monster>>&& monster
 HealthPoints GroupOfMonsters::getHealth() const {
     HealthPoints health_of_group = 0;
 
-    for (Monster monster : _monsters) {
-        health_of_group += monster.getHealth();
+    for (std::shared_ptr<Monster> monster : _monsters) {
+        health_of_group += monster->getHealth();
     }
 
     return health_of_group;
@@ -53,7 +54,7 @@ HealthPoints GroupOfMonsters::getHealth() const {
 AttackPower GroupOfMonsters::getAttackPower() const {
     AttackPower attack_power_of_group = 0;
 
-    for (Monster monster : _monsters) {
+    for (std::shared_ptr<Monster> monster : _monsters) {
         attack_power_of_group += monster.getAttackPower();
     }
 
@@ -61,7 +62,7 @@ AttackPower GroupOfMonsters::getAttackPower() const {
 }
 
 void GroupOfMonsters::takeDamage(AttackPower damage) {
-    for (Monster monster : _monsters) {
+    for (std::shared_ptr<Monster> monster : _monsters) {
         monster.takeDamage(damage);
     }
 }

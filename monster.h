@@ -8,12 +8,15 @@
 
 class Monster : public Attacker {
 public:
-    Monster(HealthPoints health, AttackPower attack_power);
+    Monster(HealthPoints health, AttackPower attack_power, std::string name);
 
     HealthPoints getHealth() const;
     void takeDamage(HealthPoints damage);
+    const std::string& getName() const;
+
 private:
     HealthPoints _health;
+    std::string _name;
 };
 
 class Mummy : Monster {
@@ -58,7 +61,7 @@ public:
     const std::string& getName() const;
 
 private:
-    std::vector<std::shared_ptr<Monster>> _monsters;
+    const std::vector<std::shared_ptr<Monster>> _monsters;
     const std::string _name;
 };
 
