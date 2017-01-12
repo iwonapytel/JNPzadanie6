@@ -46,3 +46,64 @@ Smalltown Builder::build() {
     assert(_monster != nullptr && _t0 >= 0 && _t1 >= 1);
     return SmallTown(_monster, _citizens, _t0, _t1);
 }
+
+/* Smalltown implementation */
+size_t SmallTown::citizensAlive() {
+    size_t count = 0;
+    for (const auto & c : _citizens) {
+        if (c->getHealth > 0) {
+            count++;
+        }
+    }
+    return count;
+}
+
+SmallTown::SmallTown(const MonsterPtr & monster, const std::vector<CitizenPtr> citizens,
+          Time t0, Time t1) : _monster(monster), _citizens(citizens), _time(t0), _maxTime(t1), _strategy(strategy) {
+              assert(_monster != nullptr);
+              assert(_citizens.size() > 0);
+              assert(_time <= _maxTime);
+              assert(_strategy != nullptr);
+              _citizensAlive = 0;
+              for (const auto & c : _citizens) {
+                  assert(c != nullptr);
+                  if (c->getHealth > 0) {
+                      _citizensAlive++;
+                  }
+              }
+          }
+
+SmallTown::SmallTown(const MonsterPtr & monster, const std::vector<CitizenPtr> citizens,
+          Time t0, Time t1) : SmallTown(monster, citizens, t0, t1, new DefaultStrategy);
+
+Status SmallTown::getStatus() const
+    return Status(_monster->getName(), _monster->getHealth, _citizensAlive);
+}
+
+void SmallTown::performAttack() {
+    for (auto & c : _citizens) {
+        if (c->getHealth > 0) {
+            c->getDamage(*_monster);
+            if (c->getHealth <= 0) {
+                _citizensAlive--;
+            }
+            if (_monster->getHealth() <= 0) {
+                return;
+            }
+        }
+    }
+}
+
+void SmallTown::tick(Time timeStep) {
+    bool monsterAlive = (_monster->getHealth > 0);
+    if(_citizensAlive == 0 && monsterAlive) {
+        std::cout << "MONSTER WON" << std::endl;
+    } else if (_citizensAlive > 0 && !monsterAlive) {
+        std::cout << "CITIZENS WON" << std::endl;
+    } else if (_citizensAlive == 0 && !monsterAlive) {
+        std::cout << "DRAW" << std::endl;
+    } else if (_strategy.isAttackTime(_time)) {
+        performAttack();
+    }
+    _time = (_time + timeStep) % (_maxTime + 1);
+}
