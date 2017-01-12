@@ -55,7 +55,7 @@ AttackPower GroupOfMonsters::getAttackPower() const {
     AttackPower attack_power_of_group = 0;
 
     for (std::shared_ptr<Monster> monster : _monsters) {
-        attack_power_of_group += monster.getAttackPower();
+        attack_power_of_group += monster->getAttackPower();
     }
 
     return attack_power_of_group;
@@ -63,7 +63,7 @@ AttackPower GroupOfMonsters::getAttackPower() const {
 
 void GroupOfMonsters::takeDamage(AttackPower damage) {
     for (std::shared_ptr<Monster> monster : _monsters) {
-        monster.takeDamage(damage);
+        monster->takeDamage(damage);
     }
 }
 
