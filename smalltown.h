@@ -56,11 +56,12 @@ public:
 
 class SmallTown {
 private:
-    MonsterPtr monster;
-    std::vector<CitizenPtr> citizens;
-    Time t0, t1;
-    AttackTimeStrategy strategy;
+    MonsterPtr _monster;
+    std::vector<CitizenPtr> _citizens;
+    Time _time, _maxTime;
+    AttackTimeStrategy _strategy;
     size_t citizensAlive;
+    void performAttack();
 public:
     SmallTown(const MonsterPtr & monster, const std::vector<CitizenPtr> citizens,
               Time t0, Time t1);
