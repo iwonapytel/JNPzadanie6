@@ -4,6 +4,7 @@
 #include "citizen.h"
 #include "helper.h"
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <type_traits>
 
@@ -13,7 +14,12 @@ const Age MIN_TEENAGER_AGE = 11;
 const Age MAX_TEENAGER_AGE = 17;
 
 class Citizen {
-private:
+public:
+    HealthPoints getHealth() const;
+    Age getAge() const;
+    void takeDamage(AttackPower attack_power);
+
+protected:
     Age _age;
     HealthPoints _health;
 };
@@ -42,6 +48,6 @@ std::shared_ptr<Teenager>
         createTeenager(HealthPoints healthPoints, Age age);
 
 std::shared_ptr<Sheriff>
-        createSheriff(HealthPoints healthPoints, Age age);
+        createSheriff(HealthPoints healthPoints, Age age, AttackPower attack_power);
 
 #endif // CITIZEN_H

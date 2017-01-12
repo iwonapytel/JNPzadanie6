@@ -7,6 +7,7 @@
 #include <vector>
 #include "monster.h"
 #include "citizen.h"
+#include "helper.h"
 
 /* Przerzucić gdzieś indziej */
 
@@ -16,11 +17,11 @@ using CitizenPtr = std::shared_ptr<Citizen>;
 class AttackTimeStrategy {
 public:
     virtual bool isAttackTime(Time t) const = 0;
-}
+};
 
 class DefaultStrategy : public AttackTimeStrategy {
     bool isAttackTime(Time t) const override;
-}
+};
 
 class Status {
 private:
@@ -34,7 +35,7 @@ public:
     const std::string & getMonsterName() const;
     HealthPoints & getMonsterHP() const;
     size_t getCitizensAlive() const;
-}
+};
 
 class Builder {
 private:
@@ -51,8 +52,7 @@ public:
     Builder & maxTime(Time t1);
 
     Smalltown build();
-    }
-}
+};
 
 class SmallTown {
 private:
@@ -72,4 +72,6 @@ public:
     Status getStatus() const;
 
     void tick(Time timeStep);
-}
+};
+
+#endif // SMALLTOWN_H
