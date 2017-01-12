@@ -1,6 +1,10 @@
 #include "helper.h"
 #include "citizen.h"
 
+Citizen::Citizen(HealthPoints health, Age age) : _health(health), _age(age) {
+    assert(health > 0);
+}
+
 HealthPoints Citizen::getHealth() const {
     return _health;
 }
@@ -13,20 +17,20 @@ void Citizen::takeDamage(AttackPower damage) {
     _health -= std::min(damage, _health);
 }
 
-Adult::Adult(HealthPoints health, Age age) : _age(age), _health(health) {
+Adult::Adult(HealthPoints health, Age age) : Citizen(health, age) {
     assert(age >= static_cast<HealthPoints>(MIN_ADULT_AGE) && age <= static_cast<HealthPoints>(MAX_ADULT_AGE));
 }
 
-Teenager::Teenager(HealthPoints health, Age age) : _age(age), _health(health) {
+Teenager::Teenager(HealthPoints health, Age age) : Citizen(health, age) {
     assert(age >= static_cast<HealthPoints>(MIN_TEENAGER_AGE) && age <= static_cast<HealthPoints>(MAX_TEENAGER_AGE));
 }
 
-Sheriff::Sheriff(HealthPoints health, Age age, AttackPower attack_power) :
-        _age(age), _health(health), _attack_power(attack_power) {
+Sheriff::Sheriff(HealthPoints health, Age age, AttackPower attack_power) : Citizen(health, age),
+                                                                            Attacker(attack_power) {
     assert(age >= static_cast<HealthPoints>(MIN_ADULT_AGE) && age <= static_cast<HealthPoints>(MAX_ADULT_AGE));
 }
 
-void Sheriff::fightBack(Attacker& who_attacked) {
+void Sheriff::fightBack(Monster& who_attacked) {
     who_attacked.takeDamage(getAttackPower());
 }
 
@@ -42,5 +46,5 @@ createTeenager(HealthPoints health, Age age) {
 
 std::shared_ptr<Sheriff>
 createSheriff(HealthPoints health, Age age, AttackPower attack_power) {
-    return std::make_shared<Sheriff>(health, age);
+    return std::make_shared<Sheriff>(health, age, attack_power);
 }

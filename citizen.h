@@ -3,6 +3,7 @@
 
 #include "citizen.h"
 #include "helper.h"
+#include "monster.h"
 #include <algorithm>
 #include <cassert>
 #include <memory>
@@ -19,7 +20,9 @@ public:
     Age getAge() const;
     void takeDamage(AttackPower attack_power);
 
-protected:
+    Citizen(HealthPoints health, Age age);
+
+private:
     Age _age;
     HealthPoints _health;
 };
@@ -38,7 +41,7 @@ class Sheriff : public Citizen, Attacker {
 public:
     Sheriff(HealthPoints health, Age age, AttackPower attack_power);
 
-    void fightBack(Attacker& who_attacked);
+    void fightBack(Monster& who_attacked);
 };
 
 std::shared_ptr<Adult>
