@@ -4,6 +4,7 @@
 #include "citizen.h"
 #include "helper.h"
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <type_traits>
 
@@ -13,7 +14,12 @@ const Age MIN_TEENAGER_AGE = 11;
 const Age MAX_TEENAGER_AGE = 17;
 
 class Citizen {
-private:
+public:
+    HealthPoints getHealth() const;
+    Age getAge() const;
+    void takeDamage(AttackPower attack_power);
+
+protected:
     Age _age;
     HealthPoints _health;
 };

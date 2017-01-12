@@ -1,17 +1,18 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-using Age = int;
-using AttackPower = int;
-using HealthPoints = int;
-using Time = int;
+typedef int Age;
+typedef int AttackPower;
+typedef int HealthPoints;
+typedef int Time;
 
 class Attacker {
 public:
     Attacker(HealthPoints health, AttackPower attack_power);
 
-    AttackPower getAttackPower();
-    HealthPoints getHealth();
+    AttackPower getAttackPower() const;
+    HealthPoints getHealth() const;
+    void takeDamage(AttackPower attackPower);
 
 protected:
     HealthPoints _health;

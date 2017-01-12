@@ -7,3 +7,7 @@ AttackPower Attacker::getAttackPower() const {
 HealthPoints Attacker::getHealth() const {
     return _health;
 }
+
+void Attacker::takeDamage(AttackPower attackPower) {
+    _health -= min(_health, attackPower);
+}
