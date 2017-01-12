@@ -1,11 +1,6 @@
 #include "monster.h"
 
-const std::string Mummy::_name = "Mummy";
-const std::string Vampire::_name = "Vampire";
-const std::string Zombie::_name = "Zombie";
-const std::string GroupOfMonsters::_name = "GroupOfMonsters";
-
-Monster::Monster(HealthPoints health, HealthPoints attack_power) : _health(health), _attack_power(attack_power) { }
+Monster::Monster(HealthPoints health, HealthPoints attack_power) : _health(health), Attacker(attack_power) { }
 
 HealthPoints Monster::getHealth() const {
     return _health;
@@ -15,27 +10,32 @@ void Monster::takeDamage(HealthPoints damage) {
     _health -= std::min(_health, damage);
 }
 
-Mummy::Mummy(HealthPoints health, HealthPoints attack_power) : _health(health), _attack_power(attack_power) { }
+Mummy::Mummy(HealthPoints health, HealthPoints attack_power)
+        : Monster(health, attack_power), _name("Mummy") { }
 
 const std::string& Mummy::getName() const {
     return _name;
 }
 
-Vampire::Vampire(HealthPoints health, HealthPoints attack_power) : _health(health), _attack_power(attack_power) { }
+Vampire::Vampire(HealthPoints health, HealthPoints attack_power)
+        : Monster(health, attack_power), _name("Vampire") { }
 
 const std::string& Vampire::getName() const {
     return _name;
 }
 
-Zombie::Zombie(HealthPoints health, HealthPoints attack_power) : _health(health), _attack_power(attack_power) { }
+Zombie::Zombie(HealthPoints health, HealthPoints attack_power)
+        : Monster(health, attack_power), _name("Zombie") { }
 
 const std::string& Zombie::getName() const {
     return _name;
 }
 
-GroupOfMonsters::GroupOfMonsters(std::initializer_list<Monster> monsters) : _monsters(monsters) { }
+GroupOfMonsters::GroupOfMonsters(std::initializer_list<Monster> monsters)
+        : _monsters(monsters), _name("GroupOfMonsters") { }
 
-GroupOfMonsters::GroupOfMonsters(std::vector<Monster> monsters) : _monsters(monsters) { }
+GroupOfMonsters::GroupOfMonsters(std::vector<Monster> monsters)
+        : _monsters(monsters), _name("GroupOfMonsters") { }
 
 HealthPoints GroupOfMonsters::getHealth() {
     HealthPoints health_of_group = 0;

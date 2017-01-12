@@ -12,7 +12,7 @@ public:
 
     AttackPower getAttackPower() const;
 
-protected:
+private:
     AttackPower _attack_power;
 };
 

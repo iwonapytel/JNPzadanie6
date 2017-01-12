@@ -8,8 +8,12 @@
 
 class Monster : public Attacker {
 public:
+    Monster(HealthPoints health, AttackPower attack_power);
+
     HealthPoints getHealth() const;
     void takeDamage(HealthPoints damage);
+private:
+    HealthPoints _health;
 };
 
 class Mummy : Monster {
