@@ -15,16 +15,18 @@ using CitizenPtr = std::shared_ptr<Citizen>;
 
 class AttackTimeStrategy {
 public:
-    virtual bool isAttackTime(Time t) const {
-        return (t % 3 == 0 || t % 13 == 0) && (t % 7 != 0);
-    }
+    virtual bool isAttackTime(Time t) const = 0;
+}
+
+class DefaultStrategy : public AttackTimeStrategy {
+    bool isAttackTime(Time t) const override;
 }
 
 class Status {
 private:
-    std::string monsterName;
-    HealthPoints monsterHP;
-    size_t citizensAlive;
+    std::string _monsterName;
+    HealthPoints _monsterHP;
+    size_t _citizensAlive;
 public:
     Status(std::string monsterName, HealthPoints monsterHP,
            size_t citizensAlive);
@@ -36,9 +38,10 @@ public:
 
 class Builder {
 private:
-    MonsterPtr monster;
-    std::vector<CitizenPtr> citizens;
-    Time t0, t1;
+    MonsterPtr _monster;
+    std::vector<CitizenPtr> _citizens;
+    Time _t0 = -1;
+    Time _t1 = -1;
 public:
     Builder();
 
